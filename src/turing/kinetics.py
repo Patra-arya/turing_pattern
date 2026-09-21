@@ -26,6 +26,6 @@ def jacobian(a, b, gamma):
     j12 = gamma * (u**2)
     j21 = -(2 * gamma * u * v)
     j22 = -(gamma * (u**2))
-    
+
     return np.array([[j11, j12],
                     [j21, j22]])
