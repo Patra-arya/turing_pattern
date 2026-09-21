@@ -1,0 +1,28 @@
+# Python & Byte-code
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments & Dependencies
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Checkpoints & IPyWidgets
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# Project / Operating System Artifacts
+.DS_Store
+.vscode/
+*.egg-info/
+
+# test cache
+.pytest_cache/
+
+# Large Data & PDF Plots (Optional: uncomment if you don't want plot PDFs in git)
+# *.csv
+# *.parquet
+# FT/*.pdf
