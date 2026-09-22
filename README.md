@@ -127,7 +127,7 @@ Most tests check a result against an independent route to the same answer:
 ## Usage
 
 ```bash
-git clone https://github.com/Patra-arya/anisogamy.git
+git clone https://github.com/Patra-arya/turing_pattern.git
 cd turing-pattern
 pip install -e .
 pytest
