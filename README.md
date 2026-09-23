@@ -110,9 +110,9 @@ src/turing/
 └── plotting.py    kymograph, dispersion, threshold map and slice
 tests/             one test file per module
 notebooks/
-├── 01_simulation_1d.ipynb
+├── 01_simulation_1D.ipynb
 ├── 02_linear_stability.ipynb
-└── 03_simulation_2d.ipynb
+└── 03_simulation_2D.ipynb
 ```
 
 `kinetics` knows only the chemistry; `analysis` and `solver` build on it; `plotting`
