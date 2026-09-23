@@ -1,23 +1,24 @@
 # Turing patterns in the Schnakenberg model
 
 A from-scratch study of diffusion-driven instability: linear stability analysis
-derived by hand, implemented in Python, and tested against independent numerical
-simulation in one and two dimensions.
+derived by hand (derivations based on known Schnakenberg model equations), implemented 
+in Python, and tested against independent numerical simulation in one and two dimensions.
 
 The central result is a quantitative prediction confirmed two ways. For the
-reference parameters, the critical diffusion ratio is derived analytically as
-**D_c = 8.5676**; simulations decay at D = 8.5 and pattern at D = 8.6.
+reference parameters (*a=*0.1, *b*=0.9; *see below*), the critical diffusion ratio is derived analytically 
+as **D_c = 8.5676**. Simulations decay at D = 8.5 (just below **D_c**) and pattern at D = 8.6 (just above **D_C**).
 
 ![Critical diffusion ratio over parameter space](figures/Critical_D_threshold_map.png)
-Colour shows the diffusion ratio each parameter set requires; the contour marks where D = 10 suffices.
+Colour shows the diffusion ratio each parameter set requires; the contour marks where D = 10 suffices 
+(value used in this simulation).
 
 ## The model
 
 Two species react and diffuse on a bounded domain with zero-flux boundaries:
 
 $$
-frac{partial u}{partial t} = nabla^2 u + gamma,(a - u + u^2 v), qquad
-frac{partial v}{partial t} = D,nabla^2 v + gamma,(b - u^2 v)
+\frac{\partial u}{\partial t} = \nabla^2 u + \gamma (a - u + u^2 v), \qquad
+\frac{\partial v}{\partial t} = D \nabla^2 v + \gamma (b - u^2 v)
 $$
 
 `u` is self-activating through the `u²v` term; `v` is a substrate consumed by
@@ -30,38 +31,38 @@ The homogeneous steady state is $u^* = a + b$, $v^* = b/(a+b)^2$.
 ## What linear stability analysis predicts
 
 Perturbing the steady state by a mode of wavenumber $k$ gives growth governed by
-$M(k) = J - k^2,mathrm{diag}(1, D)$, where $J$ is the Jacobian of the kinetics.
+$M(k) = J - k^2 \mathrm{diag}(1, D)$, where $J$ is the Jacobian of the kinetics.
 A Turing instability requires:
 
-1. **The uniform state is stable without diffusion:** $mathrm{tr},J < 0$ and
-   $det J > 0$.
-2. **Diffusion destabilises some finite $k$:** $det M(k) < 0$ for some $k > 0$.
+1. **The uniform state is stable without diffusion:** $\mathrm{tr} J < 0$ and
+   $\det J > 0$.
+2. **Diffusion destabilises some finite $k$:** $\det M(k) < 0$ for some $k > 0$.
 
-Writing $det M = A z^2 + Bz + C$ with $z = k^2$, condition 2 needs $B < 0$ and
+Writing $\det M = A z^2 + Bz + C$ with $z = k^2$, condition 2 needs $B < 0$ and
 $B^2 - 4AC > 0$. The threshold $D_c$ is the upper root of that discriminant in $D$.
 
 Three results follow directly and are checked in the code:
 
 - **γ does not affect whether a pattern forms.** It factors out of the discriminant
-  as $gamma^2$, so $D_c$ depends only on $(a, b)$. It does set the wavelength:
-  $k^2_{max} propto gamma$. Existence is set by the kinetics' structure and the
+  as $\gamma^2$, so $D_c$ depends only on $(a, b)$. However, it does set the wavelength:
+  $k^2_{\max} \propto \gamma$. Existence is set by the kinetics' structure and the
   diffusion ratio; length scale is set by the reaction rate.
-- **Self-activation requires $b > a$.** The condition $partial f/partial u > 0$
+- **Self-activation requires $b > a$.** The condition $\partial f/\partial u > 0$
   reduces to $(b - a)/(a + b) > 0$.
-- **Only discrete modes exist.** Zero-flux boundaries admit $k_n = npi/L$, and
+- **Only discrete modes exist.** Zero-flux boundaries admit $k_n = n\pi/L$, and
   mode $n$ has $n/2$ peaks. Boundaries fix the pattern's position, not just its
   spacing.
 
 ## Results
 
-Reference parameters: $a = 0.1$, $b = 0.9$, $gamma = 1000$, $L = 1$.
+Reference parameters: $a = 0.1$, $b = 0.9$, $\gamma = 1000$, $L = 1$.
 
 | Quantity | Predicted | Observed |
 |---|---|---|
 | Threshold $D_c$ | 8.5676 (analytic root) | between 8.5 and 8.6 (simulation) |
 | Winning mode at $D = 10$ | $n = 6$ → 3 peaks | 3 peaks |
 | Growth rate of $n = 6$ | ≈ 54 | 53.57 |
-| $D_c$ at $gamma$ = 10, 10³, 10⁶ | identical | identical across the $(a,b)$ grid |
+| $D_c$ at $\gamma$ = 10, 10³, 10⁶ | identical | identical across the $(a,b)$ grid |
 
 Linear theory describes growth from infinitesimal noise. Past onset, nonlinear
 competition between neighbouring modes can shift the final peak count by one,
@@ -74,8 +75,12 @@ self-activating and no diffusion ratio can produce a pattern. $D_c$ is smallest
 right beside the trace boundary: the least diffusion asymmetry is needed where the
 uniform state is closest to destabilising on its own.
 
-![Dispersion relation with admissible modes](figures/dispersion_relation.png)
-![Threshold slice at a = 0.1 with simulation runs](figures/pattern_for_b_values_&_fixed_a.png)
+<table>
+  <tr>
+    <td><img src="figures/dispersion_relation.png" alt="Dispersion relation" width="400"></td>
+    <td><img src="figures/threshold_slice_fixed_a.png" alt="Threshold slice" width="400"></td>
+  </tr>
+</table>
 
 **In two dimensions** the linear theory is unchanged with $k^2 = k_x^2 + k_y^2$,
 so the threshold and wavelength carry over exactly. What it cannot predict is the
@@ -83,16 +88,16 @@ so the threshold and wavelength carry over exactly. What it cannot predict is th
 made by the nonlinear terms, and is observed rather than derived here.
 
 ![2D pattern](figures/2D_sim_spots.png)
-(see figures folder for ring and stripe patterns)
+(see [figures folder](figures/) for ring and stripe patterns)
 
 ## Numerical method
 
 - Explicit Euler time-stepping with a 3-point (1D) or 5-point (2D) Laplacian.
 - Zero-flux boundaries by edge-padding, which conserves total mass exactly.
-- Timestep $Delta t = 0.2,Delta x^2 / (2,d,D_{max})$ in $d$ dimensions.
+- Timestep $\Delta t = 0.2 \Delta x^2 / (2 d D_{\max})$ in $d$ dimensions.
 
 The explicit scheme is simple and transparent but expensive: because
-$Delta t propto Delta x^2$, cost scales as $N^4$ in 2D. Implicit or spectral
+$\Delta t \propto \Delta x^2$, cost scales as $N^4$ in 2D. Implicit or spectral
 methods remove that restriction.
 
 ## Repository layout
@@ -122,7 +127,7 @@ Most tests check a result against an independent route to the same answer:
 - eigenvalue and trace/determinant growth rates against each other
 - $D_c$ against the hand-derived quadratic root
 - growth-rate sign change across $D_c$
-- $gamma$-invariance of $D_c$
+- $\gamma$-invariance of $D_c$
 - Laplacian: zero on constants, exact on $x^2$, mass-conserving
 
 ## Usage
@@ -136,21 +141,15 @@ pytest
 
 Requires NumPy, SciPy, Matplotlib, and pytest.
 
-## Next steps
-
-- Implicit or spectral time-stepping to escape the $Delta t propto Delta x^2$ limit.
-- General networks: screening arbitrary topologies for Turing instabilities,
-  including systems with non-diffusing components (Marcon et al., 2016).
-- Coupling chemical patterning to tissue mechanics.
 
 ## References
 
-- Turing, A. M. (1952). The chemical basis of morphogenesis. *Phil. Trans. R. Soc. B* 237, 37–72.
-- Schnakenberg, J. (1979). Simple chemical reaction systems with limit cycle behaviour. *J. Theor. Biol.* 81, 389–400.
+- Am, Turing. "The chemical basis of morphogenesis." *Phil Trans R Soc B* 237 (1952): 37-72.
+- Schnakenberg, Jürgen. "Simple chemical reaction systems with limit cycle behaviour." *Journal of theoretical biology* 81.3 (1979): 389-400.
 - Murray, J. D. (2003). *Mathematical Biology II*, 3rd ed., ch. 2. Springer.
-- Kondo, S. & Miura, T. (2010). Reaction-diffusion model as a framework for understanding biological pattern formation. *Science* 329, 1616–1620.
-- Raspopovic, J. et al. (2014). Digit patterning is controlled by a Bmp-Sox9-Wnt Turing network modulated by morphogen gradients. *Science* 345, 566–570.
-- Marcon, L., Diego, X., Sharpe, J. & Müller, P. (2016). High-throughput mathematical analysis identifies Turing networks for patterning with equally diffusing signals. *eLife* 5, e14022.
+- Kondo, Shigeru, and Takashi Miura. "Reaction-diffusion model as a framework for understanding biological pattern formation." *science* 329.5999 (2010): 1616-1620.
+- Raspopovic, Jelena, et al. "Digit patterning is controlled by a Bmp-Sox9-Wnt Turing network modulated by morphogen gradients." *Science* 345.6196 (2014): 566-570.
+- Marcon, Luciano, et al. "High-throughput mathematical analysis identifies Turing networks for patterning with equally diffusing signals." *Elife* 5 (2016): e14022.
 
 ## On AI usage
 
