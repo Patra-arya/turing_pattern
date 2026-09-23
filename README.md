@@ -8,7 +8,7 @@ The central result is a quantitative prediction confirmed two ways. For the
 reference parameters (*a=*0.1, *b*=0.9; *see below*), the critical diffusion ratio is derived analytically 
 as **D_c = 8.5676**. Simulations decay at D = 8.5 (just below **D_c**) and pattern at D = 8.6 (just above **D_C**).
 
-![Critical diffusion ratio over parameter space](figures/Critical_D_threshold_map.png)
+![Critical diffusion ratio over parameter space](Critical_D_threshold_map.png)
 Colour shows the diffusion ratio each parameter set requires; the contour marks where D = 10 suffices 
 (value used in this simulation).
 
